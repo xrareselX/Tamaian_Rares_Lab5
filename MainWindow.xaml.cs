@@ -97,7 +97,8 @@ namespace Tamaian_Rares_Lab5
                     BindingOperations.ClearBinding(lastNameTextBox, TextBox.TextProperty); 
                     firstNameTextBox.Text = ""; 
                     lastNameTextBox.Text = ""; 
-                    Keyboard.Focus(firstNameTextBox); 
+                    Keyboard.Focus(firstNameTextBox);
+                    SetValidationBinding();
                     break; 
                 case "Orders": 
                     break; 
@@ -106,6 +107,7 @@ namespace Tamaian_Rares_Lab5
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
             action = ActionState.Edit;
+            SetValidationBinding();
         }
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
@@ -389,6 +391,49 @@ namespace Tamaian_Rares_Lab5
                     break;
             }
             ReInitialize();
+        }
+        private void SetValidationBinding()
+        {
+            // firstName
+            Binding firstNameValidationBinding = new Binding();
+            firstNameValidationBinding.Source = customerViewSource;
+            firstNameValidationBinding.Path = new PropertyPath("FirstName");
+            firstNameValidationBinding.NotifyOnValidationError = true;
+            firstNameValidationBinding.Mode = BindingMode.TwoWay;
+            firstNameValidationBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            //string required
+            firstNameValidationBinding.ValidationRules.Add(new StringNotEmpty());
+            firstNameTextBox.SetBinding(TextBox.TextProperty, firstNameValidationBinding);
+            // lastName
+            Binding lastNameValidationBinding = new Binding();
+            lastNameValidationBinding.Source = customerViewSource;
+            lastNameValidationBinding.Path = new PropertyPath("LastName");
+            lastNameValidationBinding.NotifyOnValidationError = true;
+            lastNameValidationBinding.Mode = BindingMode.TwoWay;
+            lastNameValidationBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            //string min length validator
+            lastNameValidationBinding.ValidationRules.Add(new StringMinLength());
+            lastNameTextBox.SetBinding(TextBox.TextProperty, lastNameValidationBinding);  //setare binding nou
+            // make 
+            Binding makeValidationBinding = new Binding();
+            makeValidationBinding.Source = customerViewSource;
+            makeValidationBinding.Path = new PropertyPath("Make");
+            makeValidationBinding.NotifyOnValidationError = true;
+            makeValidationBinding.Mode = BindingMode.TwoWay;
+            makeValidationBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            //string no digits
+            makeValidationBinding.ValidationRules.Add(new StringNoDigits());
+            makeTextBox.SetBinding(TextBox.TextProperty, makeValidationBinding);
+            // model 
+            Binding modelValidationBinding = new Binding();
+            modelValidationBinding.Source = customerViewSource;
+            modelValidationBinding.Path = new PropertyPath("Model");
+            modelValidationBinding.NotifyOnValidationError = true;
+            modelValidationBinding.Mode = BindingMode.TwoWay;
+            modelValidationBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            //string starts with capital letter
+            firstNameValidationBinding.ValidationRules.Add(new StringStartsWithCapitalLetter());
+            modelTextBox.SetBinding(TextBox.TextProperty, modelValidationBinding);
         }
     }
 }
