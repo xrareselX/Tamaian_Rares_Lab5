@@ -64,7 +64,7 @@ namespace Tamaian_Rares_Lab5
             ctx.Customers.Load();
             carOrdersViewSource = (System.Windows.Data.CollectionViewSource)(this.FindResource("carOrdersViewSource"));
             //carOrdersViewSource.Source = ctx.Orders.Local;
-            ctx.Orders.Load();
+            ctx.ORDERs.Load();
             BindDataGrid();
             cbCars.ItemsSource = ctx.Cars.Local;
             //cbCars.DisplayMemberPath = "Make";
@@ -268,7 +268,7 @@ namespace Tamaian_Rares_Lab5
         }
         private void SaveOrders()
         {
-            Order order = null;
+            ORDER order = null;
             if (action == ActionState.New)
             {
                 try
@@ -276,13 +276,13 @@ namespace Tamaian_Rares_Lab5
                     Car car = (Car)cbCars.SelectedItem;
                     Customer customer = (Customer)cbCustomers.SelectedItem;
                     //instantiem Order entity
-                    order = new Order()
+                    order = new ORDER()
                     {
                         CarId = car.CarId,
                         CustId = customer.CustId
                     };
                     //adaugam entitatea nou creata in context
-                    ctx.Orders.Add(order);
+                    ctx.ORDERs.Add(order);
                     ctx.SaveChanges();
                     BindDataGrid();
                 }
@@ -297,7 +297,7 @@ namespace Tamaian_Rares_Lab5
                 try
                 {
                     int curr_id = selectedOrder.OrderId;
-                    var editedOrder = ctx.Orders.FirstOrDefault(s => s.OrderId == curr_id);
+                    var editedOrder = ctx.ORDERs.FirstOrDefault(s => s.OrderId == curr_id);
                     if (editedOrder != null)
                     {
                         editedOrder.CarId = Convert.ToInt32(cbCars.SelectedValue.ToString());
@@ -320,10 +320,10 @@ namespace Tamaian_Rares_Lab5
                 {
                     dynamic selectedOrder = ordersDataGrid.SelectedItem;
                     int curr_id = selectedOrder.OrderId;
-                    var deletedOrder = ctx.Orders.FirstOrDefault(s => s.OrderId == curr_id);
+                    var deletedOrder = ctx.ORDERs.FirstOrDefault(s => s.OrderId == curr_id);
                     if (deletedOrder != null)
                     {
-                        ctx.Orders.Remove(deletedOrder);
+                        ctx.ORDERs.Remove(deletedOrder);
                         ctx.SaveChanges();
                         MessageBox.Show("Order Deleted Successfully", "Message");
                         BindDataGrid();
@@ -337,7 +337,7 @@ namespace Tamaian_Rares_Lab5
         }
         private void BindDataGrid()
         {
-            var queryOrder = from ord in ctx.Orders
+            var queryOrder = from ord in ctx.ORDERs
                              join cust in ctx.Customers on ord.CustId equals cust.CustId
                              join car in ctx.Cars on ord.CarId equals car.CarId
                              select new

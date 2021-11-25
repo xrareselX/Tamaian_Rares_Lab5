@@ -24,7 +24,8 @@
                     RelativeSource.Self}, Path=(Validation.Errors)/ErrorContent}"/>
                 </Trigger>
             </Style.Triggers>
-        </Style>
+        </Style>
+
     </Window.Resources>
     <Grid AllowDrop="True" Margin="10,10,-0.4,43">
         <TabControl x:Name="tbCtrlAutoGeist" HorizontalAlignment="Left" Height="410" Margin="174,0,0,-43" VerticalAlignment="Top" Width="610" SelectionChanged="tbCtrlAutoGeist_SelectionChanged">
@@ -208,7 +209,8 @@
                                 </MultiDataTrigger>-->
                             </Style.Triggers>
                         </Style>
-                    </Button.Style>                </Button>
+                    </Button.Style>
+                </Button>
             </StackPanel>
         </GroupBox>
 
